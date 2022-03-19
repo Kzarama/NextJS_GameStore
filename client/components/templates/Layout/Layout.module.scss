@@ -1,0 +1,20 @@
+@import "../../../styles/colors.scss";
+
+.container {
+	background-image: url("https://game-store-next.s3.sa-east-1.amazonaws.com/static/bg-web.jpg");
+	background-size: cover;
+	background-position: center;
+}
+
+.content {
+	width: 800px !important;
+	margin-top: 14px;
+	background-color: $background-grey-light;
+	height: calc(100vh - 104px);
+	box-shadow: 0 0 10px, 0 rgba(0, 0, 0, 0.75);
+	overflow-y: scroll;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}

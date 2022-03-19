@@ -1,0 +1,104 @@
+@import "../../../styles/colors.scss";
+
+.header_game {
+	padding: 20px !important;
+
+	.ui.image {
+		margin: 10px;
+	}
+
+	.title {
+		position: relative;
+		background-color: $background-dark-absolute;
+		padding: 25px 0;
+		color: $font-light;
+		text-align: center;
+		font-weight: bold;
+		font-size: 40px;
+		line-height: 40px;
+	}
+
+	.delivery {
+		text-align: center;
+		color: $primary;
+		font-weight: bold;
+		font-size: 18px;
+		padding: 10px 0;
+	}
+
+	.summary {
+		background-color: $background-light;
+		padding: 20px;
+		font-size: 14px;
+	}
+
+	.buy {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		background-color: $background-dark-absolute;
+		color: $font-light;
+		padding: 15px 20px;
+		margin-top: 15px;
+
+		.price {
+			display: flex;
+			flex-direction: column;
+
+			> p {
+				text-align: center;
+				color: $font-grey;
+				margin: 0;
+			}
+
+			.price_actions {
+				display: flex;
+				justify-content: space-between;
+				align-items: baseline;
+
+				> p {
+					margin: 0;
+					font-weight: bold;
+
+					&:first-of-type {
+						font-size: 23px;
+					}
+
+					&:last-of-type {
+						margin-left: 15px;
+						font-size: 35px;
+						color: $primary;
+					}
+				}
+			}
+		}
+
+		.buy_btn {
+			position: relative;
+			width: 130px;
+			background-color: $primary !important;
+			color: $font-light;
+			font-size: 18px;
+			padding: 19px 0;
+			left: -10px;
+			transition: 0.2s;
+
+			&:hover {
+				left: -10px;
+			}
+
+			&:after {
+				position: absolute;
+				top: 10px;
+				right: -15px;
+				width: 36px;
+				height: 36px;
+				border-radius: 10px 4px 10px 0;
+				transform: rotate(45deg) skew(15deg, 15deg);
+				-ms-transform: rotate(45deg) skew(15deg, 15deg);
+				background-color: $primary;
+				content: "";
+			}
+		}
+	}
+}

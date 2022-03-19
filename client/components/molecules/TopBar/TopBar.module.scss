@@ -1,0 +1,25 @@
+@import "../../../styles/colors.scss";
+
+.topbar {
+	height: 90px;
+	background-color: $background-dark;
+
+	.ui.grid {
+		margin: 0;
+		padding: 0;
+		.column {
+			padding: 0;
+		}
+	}
+
+	&__left {
+		display: flex !important;
+		align-items: center;
+	}
+
+	&__right {
+		display: flex !important;
+		align-items: center;
+		justify-content: right;
+	}
+}

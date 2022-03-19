@@ -1,0 +1,27 @@
+@import "../../../styles/colors.scss";
+
+.menu {
+	border: 0;
+	box-shadow: none;
+	height: 100%;
+	background: transparent !important;
+	margin: 0 !important;
+
+	.menu_icon {
+		margin-right: 10px !important;
+		color: $primary;
+	}
+
+	.menu_item {
+		color: $font-light !important;
+		border-radius: 0 !important;
+
+		&:hover {
+			color: $font-light;
+			background-color: $background-dark-absolute !important;
+			&:before {
+				background-color: $background-dark-absolute !important;
+			}
+		}
+	}
+}

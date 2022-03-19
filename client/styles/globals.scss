@@ -1,0 +1,145 @@
+@import "./colors.scss";
+
+html,
+body {
+	padding: 0;
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.ui.form {
+	.ui.input {
+		input {
+			border: 1px solid $border-grey-light;
+			font-size: 16px;
+		}
+	}
+
+	.actions {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+	}
+
+	.ui.button.submit {
+		background-color: $primary;
+		color: $font-light;
+		margin: 0;
+	}
+}
+
+.ui.pagination.menu {
+	background-color: transparent !important;
+	border: 0;
+	box-shadow: none;
+
+	.item {
+		background-color: $primary;
+		border-radius: 50% !important;
+		color: $font-light;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0 4px;
+
+		&:before {
+			display: none;
+		}
+
+		&:focus {
+			outline: none !important;
+		}
+
+		&:active {
+			background-color: $background-grey;
+			color: $font-light;
+		}
+	}
+}
+
+.iconHeart {
+	position: absolute;
+	height: 100%;
+	right: 9px;
+	display: flex;
+	align-items: center;
+	font-size: 30px !important;
+	opacity: 1 !important;
+
+	&.like {
+		color: $primary;
+	}
+}
+
+.slick-slide {
+	padding: 5px;
+
+	.ui.image:hover {
+		cursor: pointer;
+		opacity: 0.8;
+	}
+}
+
+.slick-arrow {
+	z-index: 1;
+
+	&:before {
+		font-size: 30px;
+	}
+
+	&.slick-next {
+		right: 20px;
+	}
+
+	&.slick-prev {
+		left: 20px;
+	}
+}
+
+.address {
+	padding: 10px;
+	margin: 10px 0;
+	border: 1px solid $border-grey-light;
+	border-radius: 5px;
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	p {
+		margin-bottom: 5px;
+
+		&:first-of-type {
+			font-weight: bold;
+			border-bottom: 1px solid $border-grey-light;
+			margin-bottom: 10px;
+			font-size: 16px;
+			color: $primary;
+		}
+	}
+
+	&.active {
+		border-color: $primary;
+		background-color: #ffe2d4;
+
+		p {
+			border-color: $primary;
+		}
+	}
+}
+
+.StripeElement {
+	padding: 15px;
+	border-radius: 0.25rem;
+	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+	border: 1px solid $border-grey-light;
+}

@@ -1,0 +1,27 @@
+@import "../../../styles/colors.scss";
+
+.menu {
+	background-color: transparent !important;
+}
+
+.item {
+	color: $font-light !important;
+	border-radius: 0 !important;
+
+	&:hover {
+		color: $font-light;
+		background-color: $background-dark-absolute !important;
+		&:before {
+			background-color: $background-dark-absolute !important;
+		}
+	}
+}
+
+.icon {
+	color: $primary;
+}
+
+.icon_cart {
+	color: $primary;
+	margin: 0 !important;
+}

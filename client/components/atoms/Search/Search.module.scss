@@ -1,0 +1,29 @@
+@import "../../../styles/colors.scss";
+
+.input {
+	align-items: center;
+	padding-right: 5px !important;
+	margin-right: 30px;
+
+	input {
+		background-color: transparent !important;
+		border: 0;
+		border-bottom: 2px solid $primary !important;
+		border-radius: 0;
+		color: $primary !important;
+		padding: 5px 0;
+		width: 220px;
+		font-size: 20px;
+		transition: width 0.7s !important;
+
+		&:focus {
+			width: 350px;
+		}
+	}
+	i {
+		color: $primary;
+		opacity: 1 !important;
+		font-size: 25px;
+		right: -50px !important;
+	}
+}
