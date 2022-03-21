@@ -54,7 +54,7 @@ export default function Home_template(props: { isHome: boolean }) {
   };
 
   return (
-    <Layout className={styles.home}>
+    <Layout className={styles.home} seoTitle={undefined} seoDescription={undefined}>
       {!games && <Loader active>Cargando juegos.</Loader>}
 
       {games && size(games) === 0 && (

@@ -33,7 +33,7 @@ export default function Account_template() {
   };
 
   return (
-    <Layout className={styles.account}>
+    <Layout className={styles.account} seoTitle={`GameStore - ${user.name} ${user.lastname}`} seoDescription={undefined}>
       <div className={styles.account__configuration}>
         <div className={styles.title__account}><span>Configuración</span></div>
         <div className={styles.data__account}>

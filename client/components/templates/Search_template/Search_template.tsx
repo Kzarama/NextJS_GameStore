@@ -32,7 +32,7 @@ export default function Search_template() {
   }, [query]);
 
   return (
-    <Layout className="search">
+    <Layout className="search" seoTitle={"GameStore - Busca tus juegos"} seoDescription={undefined}>
       {!games && query.query?.length !== 0 && <Loader active>Buscando juegos</Loader>}
 
       {games && size(games) === 0 && (

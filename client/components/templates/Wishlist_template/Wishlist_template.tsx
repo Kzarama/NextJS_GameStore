@@ -53,7 +53,7 @@ export default function Whislist_template() {
   };
 
   return (
-    <Layout className="whislist">
+    <Layout className="whislist" seoTitle={"GameStore - Lista de deseos"} seoDescription={undefined}>
       <div className={styles.wishlist}>
         <div className={styles.title}>
           Lista de deseos

@@ -20,7 +20,7 @@ export default function Cart_template() {
 
 function EmptyCart() {
   return (
-    <Layout className={styles.empty_cart}>
+    <Layout className={styles.empty_cart} seoTitle={"GameStore - Carrito de compras"} seoDescription={undefined}>
       <h2>No hay productos en el carrito</h2>
     </Layout>
   );
@@ -46,7 +46,7 @@ function FullCart(props: { products: Array<string> }) {
   }, [reloadCart]);
 
   return (
-    <Layout className={styles.full_cart}>
+    <Layout className={styles.full_cart} seoTitle={"GameStore - Carrito de compras"} seoDescription={undefined}>
       <SummaryCart
         products={productData}
         reloadCart={reloadCart}

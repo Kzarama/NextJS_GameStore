@@ -22,7 +22,7 @@ export default function Orders_template() {
   }, [auth]);
 
   return (
-    <Layout className="orders">
+    <Layout className="orders" seoTitle={"GameStore - Mis pedidos"} seoDescription={undefined}>
       <div className={styles.orders_block}>
         <div className={styles.title}>Mis pedidos</div>
         <div className={styles.data}>

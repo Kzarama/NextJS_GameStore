@@ -22,7 +22,7 @@ export default function Game_template() {
   if (!game) return null;
 
   return (
-    <Layout className="game">
+    <Layout className="game" seoTitle={`GameStore - ${game.title}`} seoDescription={undefined}>
       <GameHeader game={game} />
       <TabsGame game={game} />
     </Layout>
