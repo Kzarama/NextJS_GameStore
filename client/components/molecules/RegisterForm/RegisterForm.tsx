@@ -33,35 +33,35 @@ export default function RegisterForm(props: { showLoginForm: Function }) {
         type="text"
         placeholder="Nombre"
         onChange={formik.handleChange}
-        error={formik.errors.name}
+      // error={formik.errors.name}
       />
       <Form.Input
         name="lastname"
         type="text"
         placeholder="Apellido"
         onChange={formik.handleChange}
-        error={formik.errors.lastname}
+      // error={formik.errors.lastname}
       />
       <Form.Input
         name="username"
         type="text"
         placeholder="Nombre de usuario"
         onChange={formik.handleChange}
-        error={formik.errors.username}
+      // error={formik.errors.username}
       />
       <Form.Input
         name="email"
         type="text"
         placeholder="Correo electrónico"
         onChange={formik.handleChange}
-        error={formik.errors.email}
+      // error={formik.errors.email}
       />
       <Form.Input
         name="password"
         type="password"
         placeholder="Contraseña"
         onChange={formik.handleChange}
-        error={formik.errors.password}
+      // error={formik.errors.password}
       />
       <div className="actions">
         <Button type="submit" className="submit" loading={loading}>
