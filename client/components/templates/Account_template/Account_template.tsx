@@ -19,7 +19,7 @@ export default function Account_template() {
 
   useEffect(() => {
     (async () => {
-      const response = await getMeApi(logout);
+      const response = await getMeApi(auth.id, logout);
       setUser(response || null);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps

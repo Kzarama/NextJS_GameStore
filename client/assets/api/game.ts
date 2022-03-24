@@ -1,13 +1,33 @@
-import { BASE_PATH } from "../utils/constants";
+import { BASE_PATH_G } from "../utils/constants";
+import { GameInterface } from "../interfaces/iGame";
+
+import { forEach } from "lodash";
 
 export async function getLastGamesApi(limit: number, start: number) {
   try {
-    const limitItems = `_limit=${limit}`;
-    const sortItems = "_sort=createdAt:desc";
-    const startItems = `_start=${start}`;
-    const url = `${BASE_PATH}/games?${limitItems}&${sortItems}&${startItems}`;
-    const response = await fetch(url);
-    return response.json();
+    const response = await fetch(BASE_PATH_G, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        "query": `
+          query GetLastGames {
+            games (limit: ${limit}, sort: "createdAt:desc", start: ${start}) {
+              id
+              url
+              title
+              price
+              discount
+              poster {
+                url
+              }
+            }
+          }`
+      }),
+    });
+    const data = await response.json();
+    return data.data.games;
   } catch (error) {
     console.error(error);
     return null;
@@ -16,12 +36,42 @@ export async function getLastGamesApi(limit: number, start: number) {
 
 export async function getGamesPlatformApi(platform: string, limit: number, start: number) {
   try {
-    const limitItems = `_limit=${limit}`;
-    const sortItems = "_sort=createdAt:desc";
-    const startItems = `_start=${start}`;
-    const url = `${BASE_PATH}/games?platform.url=${platform}&${limitItems}&${sortItems}&${startItems}`;
-    const response = await fetch(url);
-    return response.json();
+    const response = await fetch(BASE_PATH_G, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        "query": `
+          query GetGamesPlatform {
+            games (limit: ${limit}, sort: "createdAt:desc", start: ${start}) {
+              id
+              url
+              title
+              price
+              discount
+              platform {
+                url
+              }
+              poster {
+                url
+              }
+            }
+          }`
+      }),
+    });
+    const data = await response.json();
+    if (!data.errors) {
+      const responseTemp: Array<GameInterface> = [];
+      forEach(data.data.games, (game) => {
+        if (game.platform.url === platform) {
+          responseTemp.push(game);
+        };
+      });
+      return responseTemp;
+    } else {
+      throw new Error(data);
+    };
   } catch (error) {
     console.error(error);
     return null;
@@ -30,9 +80,22 @@ export async function getGamesPlatformApi(platform: string, limit: number, start
 
 export async function getTotalGamesApi() {
   try {
-    const url = `${BASE_PATH}/games/count`;
-    const response = await fetch(url);
-    return response.json();
+    const response = await fetch(BASE_PATH_G, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        "query": `
+          query GetAllGames {
+            games {
+              title
+            }
+          }`
+      }),
+    });
+    const data = await response.json();
+    return data.data.games.length;
   } catch (error) {
     console.error(error);
     return null;
@@ -41,9 +104,7 @@ export async function getTotalGamesApi() {
 
 export async function getTotalGamesPlatformApi(platform: string) {
   try {
-    const url = `${BASE_PATH}/games/count?platform.url=${platform}`;
-    const response = await fetch(url);
-    return response.json();
+    return getGamesPlatformApi.length;
   } catch (error) {
     console.error(error);
     return null;
@@ -52,9 +113,38 @@ export async function getTotalGamesPlatformApi(platform: string) {
 
 export async function getGameByUrlApi(path: string) {
   try {
-    const url = `${BASE_PATH}/games?url=${path}`;
-    const response = await fetch(url);
-    return response.json();
+    const response = await fetch(BASE_PATH_G, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        "query": `
+          query GetGameByUrl {
+            games (where:{url: "${path}"}) {
+              id
+              url
+              title
+              summary
+              releaseDate
+              price
+              discount
+              video
+              poster {
+                url
+              }
+              screenshots {
+                url
+              }
+              platform {
+                url
+              }
+            }
+          }`
+      }),
+    });
+    const data = await response.json();
+    return data.data.games;
   } catch (error) {
     console.error(error);
     return null;
@@ -63,9 +153,38 @@ export async function getGameByUrlApi(path: string) {
 
 export async function searchGamesApi(title: string) {
   try {
-    const url = `${BASE_PATH}/games?_q=${title}`;
-    const response = await fetch(url);
-    return response.json();
+    const response = await fetch(BASE_PATH_G, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `
+          query SearchGames {
+            games (where:{_q: "${title}"}) {
+              id
+              title
+              summary
+              releaseDate
+              url
+              price
+              discount
+              video
+              poster {
+                url
+              }
+              screenshots {
+                url
+              }
+              platform {
+                url
+              }
+            }
+          }`
+      }),
+    });
+    const data = await response.json();
+    return data.data.games;
   } catch (error) {
     console.error(error);
     return null;

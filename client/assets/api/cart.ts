@@ -7,12 +7,12 @@ import { toast } from "react-toastify";
 import { includes, remove, size } from "lodash";
 
 export function getProductsCart() {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     const cart = localStorage.getItem(CART);
     if (!cart) {
       return null;
     } else {
-      return cart.split(',');
+      return cart.split(",");
     };
   };
 };
@@ -66,7 +66,7 @@ export async function paymentCartApi(token: object, products: ProductInterface[]
     delete addressShipping.createdAt;
     const url = `${BASE_PATH}/orders`;
     const params = {
-      method: 'POST',
+      method: "POST",
       headers: {
         "content-type": "application/json",
       },

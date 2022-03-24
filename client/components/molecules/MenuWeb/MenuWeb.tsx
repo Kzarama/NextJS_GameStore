@@ -23,7 +23,7 @@ export default function MenuWeb() {
 
   useEffect(() => {
     (async () => {
-      const response = await getMeApi(logout);
+      const response = await getMeApi(auth.id, logout);
       setUser(response);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,7 +42,7 @@ export default function MenuWeb() {
         <Grid>
           <Grid.Column width={6} className={styles.menu__left}>
             {map(platforms, (platform) => {
-              return <MenuCategory key={platform._id} platform={platform} />
+              return <MenuCategory key={platform.id} platform={platform} />
             })}
           </Grid.Column>
           <Grid.Column width={10} className={styles.menu__right}>

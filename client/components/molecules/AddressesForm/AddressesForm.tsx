@@ -26,14 +26,14 @@ export default function AddressesForm(props: { setShowModal: Function, setReload
     },
   });
 
-  const createAddress = async (formData: object) => {
+  const createAddress = async (formData: AddressInterface) => {
     setLoading(true);
-    const formDataTemp = {
+    const formDataTemp: AddressInterface = {
       ...formData,
       user: auth?.id,
     };
-    const response = createAddressApi(formDataTemp, logout);
-    if (!response) {
+    const response = await createAddressApi(formDataTemp, logout);
+    if (response.errors) {
       toast.warning("Error al crear la dirección.");
       setLoading(false);
     } else {

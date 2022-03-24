@@ -1,13 +1,26 @@
-import { authFetch } from "../utils/fetch";
-import { BASE_PATH } from "../utils/constants";
+import { authFetch_g } from "../utils/fetch";
 
 export async function getAllFavoritesApi(idUser: string, limit: number, start: number, logout: Function) {
   try {
-    const limitItems = `_limit=${limit}`;
-    const sortItems = "_sort=createdAt:desc";
-    const startItems = `_start=${start}`;
-    const url = `${BASE_PATH}/favorites?user=${idUser}&${limitItems}&${sortItems}&${startItems}`;
-    return await authFetch(url, null, logout);
+    const query_body = JSON.stringify({
+      "query": `
+        query GetFavorites {
+          favorites (limit: ${limit}, sort: "createdAt:desc", start: ${start}, where: {user: "${idUser}"}) {
+            game {
+              id
+              url
+              title
+              price
+              discount
+              poster {
+                url
+              }
+            }
+          }
+        }`,
+    });
+    const data = await authFetch_g(query_body, logout);
+    return data.data.favorites;
   } catch (error) {
     console.error(error);
     return null;
@@ -16,8 +29,26 @@ export async function getAllFavoritesApi(idUser: string, limit: number, start: n
 
 export async function isFavoriteApi(idUser: string, idGame: string, logout: Function) {
   try {
-    const url = `${BASE_PATH}/favorites?user=${idUser}&game=${idGame}`;
-    return await authFetch(url, null, logout);
+    const query_body = JSON.stringify({
+      query: `
+        query isFavorite {
+          favorites (where: {user: "${idUser}", game: "${idGame}"}) {
+            id
+            game {
+              id
+              url
+              title
+              price
+              discount
+              poster {
+                url
+              }
+            }
+          }
+        }`,
+    });
+    const data = await authFetch_g(query_body, logout);
+    return data.data.favorites;
   } catch (error) {
     console.error(error);
     return null;
@@ -26,15 +57,17 @@ export async function isFavoriteApi(idUser: string, idGame: string, logout: Func
 
 export async function addFavoriteApi(idUser: string, idGame: string, logout: Function) {
   try {
-    const url = `${BASE_PATH}/favorites`;
-    const params = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user: idUser, game: idGame }),
-    };
-    return await authFetch(url, params, logout);
+    var graphql = JSON.stringify({
+      query: `
+        mutation CreateFavorite {
+          createFavorite(input: { data: { game: "${idGame}", user: "${idUser}" } }) {
+            favorite {
+              id
+            }
+          }
+        }`,
+    });
+    return await authFetch_g(graphql, logout);
   } catch (error) {
     console.error(error);
     return null;
@@ -44,14 +77,17 @@ export async function addFavoriteApi(idUser: string, idGame: string, logout: Fun
 export async function deleteFavoriteApi(idUser: string, idGame: string, logout: Function) {
   try {
     const dataFount = await isFavoriteApi(idUser, idGame, logout);
-    const url = `${BASE_PATH}/favorites/${dataFount[0]._id}`;
-    const params = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    return await authFetch(url, params, logout);
+    var graphql = JSON.stringify({
+      query: `
+        mutation DeleteFavorite {
+          deleteFavorite(input: { where: { id: "${dataFount[0].id}" } }) {
+            favorite {
+              id
+            }
+          }
+        }`,
+    });
+    return await authFetch_g(graphql, logout);
   } catch (error) {
     console.error(error);
     return null;

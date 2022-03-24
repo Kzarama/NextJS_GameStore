@@ -1,15 +1,37 @@
-import { authFetch } from "../utils/fetch";
-import { BASE_PATH } from "../utils/constants";
+import { authFetch_g } from "../utils/fetch";
 
 export async function getOrdersApi(idUser: string, logout: Function) {
   try {
-    const url = `${BASE_PATH}/orders?_sort=createdAt:desc&user=${idUser}`;
-    const response = await authFetch(url, null, logout);
-    if (response.statusCode === 500) {
-      throw new Error(response.error);
-    } else {
-      return response;
-    };
+    const body = JSON.stringify({
+      query: `
+        query Orders {
+          orders (sort: "createdAt:desc", where: {user: "${idUser}"}) {
+            id
+            game {
+              id
+              title
+              price
+              discount
+              poster {
+                url
+              }
+              url
+            }
+            user {
+              id
+              name
+              username
+              lastname
+              email
+            }
+            totalPayment
+            idPayment
+            addressShipping
+          }
+        }`
+    });
+    const response = await authFetch_g(body, logout);
+    return response.data.orders;
   } catch (error) {
     console.error(error);
     return null;

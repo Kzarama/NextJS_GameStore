@@ -1,5 +1,5 @@
 export interface PlatformInterface {
-  _id: string;
+  id: string;
   position: number;
   title: string;
   url: string;

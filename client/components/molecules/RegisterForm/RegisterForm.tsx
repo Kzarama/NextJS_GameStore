@@ -1,4 +1,5 @@
 import { registerApi } from "../../../assets/api/user";
+import { UserInterface } from "../../../assets/interfaces/iUser";
 
 import * as Yup from "yup";
 import { useState } from "react";
@@ -11,12 +12,12 @@ export default function RegisterForm(props: { showLoginForm: Function }) {
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
-    initialValues: initialValues,
+    initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
-    onSubmit: async (formData) => {
+    onSubmit: async (formData: UserInterface) => {
       setLoading(true);
       const response = await registerApi(formData);
-      if (response?.jwt) {
+      if (!response.errors) {
         showLoginForm();
         toast.success("Registro exitoso!");
       } else {
@@ -75,7 +76,7 @@ export default function RegisterForm(props: { showLoginForm: Function }) {
   );
 };
 
-function initialValues() {
+function initialValues(): UserInterface {
   return {
     name: "",
     lastname: "",

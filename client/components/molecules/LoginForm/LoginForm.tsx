@@ -2,6 +2,7 @@ import styles from "./LoginForm.module.scss";
 
 import useAuth from "../../../assets/hooks/useAuth";
 import { loginApi, resetPasswordApi } from "../../../assets/api/user";
+import { UserLoginInterface } from "../../../assets/interfaces/iUserLogin";
 
 import * as Yup from "yup";
 import { useState } from "react";
@@ -17,7 +18,7 @@ export default function LoginForm(props: { showRegisterForm: Function, setShowMo
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
-    onSubmit: async (formData) => {
+    onSubmit: async (formData: UserLoginInterface) => {
       setLoading(true);
       const response = await loginApi(formData);
       if (response?.jwt) {

@@ -44,11 +44,13 @@
       "plugin": "users-permissions",
       "configurable": false
     },
-    "name": {
-      "type": "string"
-    },
     "lastname": {
-      "type": "string"
+      "type": "string",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
     }
   }
 }
