@@ -9,10 +9,10 @@ import CartContext from '../assets/context/CartContext';
 import { getToken, removeToken, setToken } from '../assets/api/token';
 import { addProductCart, countProductsCart, getProductsCart, removeAllProductsCart, removeProductCart } from '../assets/api/cart';
 
-import Head from 'next/head';
 import jwtDecode from 'jwt-decode';
 import { useRouter } from 'next/router';
 import type { AppProps } from 'next/app';
+import { SessionProvider } from "next-auth/react";
 import { useEffect, useMemo, useState } from 'react';
 import { toast, ToastContainer } from "react-toastify";
 
@@ -96,10 +96,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   if (auth === undefined) return null;
 
   return (
-    <>
-      <Head>
-        <title>GameStore</title>
-      </Head>
+    <SessionProvider session={pageProps.session}>
       <AuthContext.Provider value={authData}>
         <CartContext.Provider value={cartData}>
           <Component {...pageProps} />
@@ -116,7 +113,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
         </CartContext.Provider>
       </AuthContext.Provider>
-    </>
+    </SessionProvider>
   );
 };
 

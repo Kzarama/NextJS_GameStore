@@ -4,15 +4,34 @@ import useCart from "../../../assets/hooks/useCart";
 import { MenuUserOptionsInterface } from "../../../assets/interfaces/iMenuUserOptions";
 
 import Link from "next/link";
+import { useEffect } from "react";
+import useAuth from "assets/hooks/useAuth";
 import { Icon, Label, Menu } from "semantic-ui-react";
+import { loginApi, registerApi } from "assets/api/user";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function MenuUserOptions(props: MenuUserOptionsInterface) {
-  const { setShowModal, user, logout } = props;
+  const { data: session } = useSession();
+  const { login } = useAuth();
   const { productsCart } = useCart();
+
+  useEffect(() => {
+    (async () => {
+      if (session) {
+        const response = await loginApi({ identifier: session.user?.email, password: process.env.NEXT_PUBLIC_BD_PASSWORD });
+        if (response?.statusCode === 400) {
+          registerApi({ name: session.user?.name, lastname: "", username: "", email: session.user?.email, password: process.env.NEXT_PUBLIC_BD_PASSWORD });
+        } else {
+          login(response?.jwt);
+        };
+      };
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session]);
 
   return (
     <Menu className={styles.menu}>
-      {user ? (
+      {session ? (
         <>
           <Link href="/orders" passHref={true}>
             <Menu.Item className={styles.item} as="a">
@@ -29,7 +48,7 @@ export default function MenuUserOptions(props: MenuUserOptionsInterface) {
           <Link href="/account" passHref={true}>
             <Menu.Item className={styles.item} as="a">
               <Icon className={styles.icon} name="user outline" />
-              {user.name} {user.lastname}
+              {session.user!.name}
             </Menu.Item>
           </Link>
           <Link href="/cart" passHref={true}>
@@ -42,12 +61,12 @@ export default function MenuUserOptions(props: MenuUserOptionsInterface) {
               )}
             </Menu.Item>
           </Link>
-          <Menu.Item onClick={() => logout()}>
+          <Menu.Item onClick={() => signOut()}>
             <Icon className={styles.icon_cart} name="power off" />
           </Menu.Item>
         </>
       ) :
-        <Menu.Item className={styles.item} onClick={() => setShowModal(true)}>
+        <Menu.Item className={styles.item} onClick={() => signIn()}>
           <Icon name="user outline" />
           Mi cuenta
         </Menu.Item>

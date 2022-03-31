@@ -11,14 +11,33 @@ import { getAllFavoritesApi } from "../../../assets/api/favorite";
 
 import { forEach, size } from "lodash";
 import { useRouter } from "next/router";
+import { GetServerSideProps } from "next";
 import { Loader } from "semantic-ui-react";
 import { useEffect, useState } from "react";
+import { getSession, useSession } from "next-auth/react";
+
+export const getServerSideProps: GetServerSideProps<{}> = async (context) => {
+  const session = await getSession(context);
+  if (session == null) {
+    return {
+      redirect: {
+        destination: "/api/auth/signin",
+        permanent: false,
+      },
+    };
+  };
+  return {
+    props: { session },
+  };
+};
 
 export default function Whislist_template() {
   const { query } = useRouter();
   const { auth, logout } = useAuth();
   const [totalGames, setTotalGames] = useState(0);
   const [games, setGames] = useState<Array<GameInterface> | null>(null);
+  const router = useRouter();
+  const { data: session, status: loading } = useSession();
 
   useEffect(() => {
     (async () => {
@@ -43,6 +62,13 @@ export default function Whislist_template() {
     })();
   }, [query]);
 
+  useEffect(() => {
+    if (!session) {
+      router.replace("/");
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const getStartItem = () => {
     const currentPage = parseInt(query.page as string);
     if (!query.page || currentPage < 1) {
@@ -51,34 +77,37 @@ export default function Whislist_template() {
       return currentPage * LIMIT_PER_PAGE - LIMIT_PER_PAGE;
     };
   };
+  if (loading) {
+    return null;
+  } else {
+    return (
+      <Layout className="whislist" seoTitle={"GameStore - Lista de deseos"} seoDescription={undefined}>
+        <div className={styles.wishlist}>
+          <div className={styles.title}>
+            Lista de deseos
+          </div>
+          <div className={styles.data}>
+            {!games && <Loader active>Cargando juegos.</Loader>}
 
-  return (
-    <Layout className="whislist" seoTitle={"GameStore - Lista de deseos"} seoDescription={undefined}>
-      <div className={styles.wishlist}>
-        <div className={styles.title}>
-          Lista de deseos
+            {games && size(games) === 0 && (
+              <div className={styles.Not_found}>
+                <h3>No hay juegos</h3>
+              </div>
+            )}
+
+            {size(games) > 0 && <ListGames games={games} />}
+
+            {totalGames ? (
+              <Pagination
+                totalGames={totalGames}
+                page={query.page ? parseInt(query.page as string) : 1}
+              />
+            ) : (
+              null
+            )}
+          </div>
         </div>
-        <div className={styles.data}>
-          {!games && <Loader active>Cargando juegos.</Loader>}
-
-          {games && size(games) === 0 && (
-            <div className={styles.Not_found}>
-              <h3>No hay juegos</h3>
-            </div>
-          )}
-
-          {size(games) > 0 && <ListGames games={games} />}
-
-          {totalGames ? (
-            <Pagination
-              totalGames={totalGames}
-              page={query.page ? parseInt(query.page as string) : 1}
-            />
-          ) : (
-            null
-          )}
-        </div>
-      </div>
-    </Layout>
-  );
+      </Layout>
+    );
+  };
 };

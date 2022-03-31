@@ -55,15 +55,17 @@ export default function Home_template(props: { isHome: boolean }) {
 
   return (
     <Layout className={styles.home} seoTitle={undefined} seoDescription={undefined}>
-      {!games && <Loader active>Cargando juegos.</Loader>}
+      {!games && size(games) !== 0 && <Loader active>Cargando juegos.</Loader>}
 
-      {games && size(games) === 0 && (
-        <div><h3>No hay juegos</h3></div>
+      {!games && size(games) === 0 && (
+        <div style={{ marginTop: "20vw" }}>
+          <h3 style={{ textAlign: "center", fontSize: "40px" }}>No hay juegos<br />en esta sección 😥</h3>
+        </div>
       )}
 
       {size(games) > 0 && <ListGames games={games} />}
 
-      {totalGames ? (
+      {totalGames && games ? (
         <Pagination
           totalGames={totalGames}
           page={query.page ? parseInt(query.page as string) : 1}

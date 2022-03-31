@@ -1,8 +1,6 @@
 import styles from "./Menu.module.scss";
 
-import Auth from "../Auth";
 import MenuCategory from "../../atoms/MenuCategory";
-import ModalBasic from "../../organisms/ModalBasic";
 import useAuth from "../../../assets/hooks/useAuth";
 import { getMeApi } from "../../../assets/api/user";
 import MenuWebOptions from "../../atoms/MenuUserOptions";
@@ -56,9 +54,6 @@ export default function MenuWeb() {
           </Grid.Column>
         </Grid>
       </Container>
-      <ModalBasic showModal={showModal} setShowModal={setShowModal} title={titleModal} size={"small"}>
-        <Auth setShowModal={setShowModal} setTitleModal={setTitleModal} />
-      </ModalBasic>
     </div>
   );
 };
